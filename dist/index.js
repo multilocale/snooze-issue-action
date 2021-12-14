@@ -8449,7 +8449,8 @@ try {
   const payload = JSON.stringify(github.context.payload, undefined, 2)
   // console.log(`The event payload: ${payload}`);
 
-  const octokit = github.getOctokit();
+  const githubToken = core.getInput('githubToken');
+  const octokit = github.getOctokit(githubToken);
 
   console.log({octokit})
 
