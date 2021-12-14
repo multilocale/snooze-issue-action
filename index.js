@@ -17,9 +17,11 @@ async function run() {
 
     console.log('github.context.issue', github.context.issue);
 
-    const result = await octokit.issues.update(github.context.issue({
-      state: 'closed',
-    }));
+    const result = await octokit.issues.update(
+      github.context.issue({
+        state: 'closed',
+      }),
+    );
 
     console.log({ result });
   } catch (error) {
