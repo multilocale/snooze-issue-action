@@ -1,24 +1,34 @@
 const core = require('@actions/core');
 const github = require('@actions/github');
 
-try {
-  const payload = JSON.stringify(github.context.payload, undefined, 2)
-  // console.log(`The event payload: ${payload}`);
+async function run() {
 
-  const githubToken = core.getInput('githubToken');
-  const octokit = github.getOctokit(githubToken);
+  try {
+    const payload = JSON.stringify(github.context.payload, undefined, 2)
+    // console.log(`The event payload: ${payload}`);
 
-  console.log({octokit})
+    
+    const githubToken = core.getInput('githubToken');
+    const octokit = github.getOctokit(githubToken);
 
-  console.log({issues: octokit.issues})
+    console.log({octokit})
 
-  // const { data: comments } = await octokit.issues.listComments({
-  //   ...repo,
-  //   issue_number: pullRequestNumber,
-  // });
+    console.log('octokit.issues', octokit.issues)
 
-  // console.log(`t: ${comments}`)
+    console.log('octokit?.issues?.update', octokit?.issues?.update)
 
-} catch (error) {
-  core.setFailed(error.message);
+    console.log('github.context.issue', github?.context?.issue)
+
+    const result = await octokit.issues.update(context.issue({
+      state: 'closed',
+    }))
+
+    console.log({result})
+
+  } catch (error) {
+    core.setFailed(error.message);
+  }
+
 }
+
+run()
