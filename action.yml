@@ -1,0 +1,13 @@
+name: 'Snooze issue'
+description: 'commenting an issue with /snooze 30 days will temporarily close the issue for 30 days'
+inputs:
+  who-to-greet:  # id of input
+    description: 'Who to greet'
+    required: true
+    default: 'World'
+outputs:
+  time: # id of output
+    description: 'The time we greeted you'
+runs:
+  using: 'node12'
+  main: 'index.js'

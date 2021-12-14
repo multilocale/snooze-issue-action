@@ -1,0 +1,24 @@
+{
+  "name": "snooze-issue-action",
+  "version": "1.0.0",
+  "description": "commenting an issue with /snooze 30 days will temporarily close the issue for 30 days",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/multilocale/snooze-issue-action.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/multilocale/snooze-issue-action/issues"
+  },
+  "homepage": "https://github.com/multilocale/snooze-issue-action#readme",
+  "dependencies": {
+    "@actions/core": "^1.6.0",
+    "@actions/github": "^5.0.0"
+  }
+}
