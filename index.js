@@ -9,7 +9,7 @@ try {
 
   console.log({octokit})
 
-  console.log({octokit.issues})
+  console.log({issues: octokit.issues})
 
   // const { data: comments } = await octokit.issues.listComments({
   //   ...repo,
