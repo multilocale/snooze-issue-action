@@ -8449,7 +8449,7 @@ try {
   const payload = JSON.stringify(github.context.payload, undefined, 2)
   // console.log(`The event payload: ${payload}`);
 
-  const octokit = github.getOctokit(githubToken);
+  const octokit = github.getOctokit();
 
   console.log({octokit})
 
