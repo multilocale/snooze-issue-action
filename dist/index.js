@@ -8456,11 +8456,10 @@ async function run() {
 
     const octokit = github.getOctokit(githubToken);
 
-    console.log('octokit.rest.issues', octokit.rest.issues);
-
     const repo = github.context.repo.repo;
     const owner = github.context.repo.owner;
     const issue_number = github.context.payload.number;
+    console.log('github.context.payload', github.context.payload);
 
     console.log({ repo });
     console.log({ owner });
