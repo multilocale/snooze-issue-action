@@ -8457,10 +8457,6 @@ async function run() {
 
     console.log('octokit.issues', octokit.issues);
 
-    console.log('octokit.issues.update', octokit.issues.update);
-
-    console.log('github.context.issue', github.context.issue);
-
     const repo = github.context.repo.repo;
     const owner = github.context.repo.owner;
     const issue = github.context.payload.number;
