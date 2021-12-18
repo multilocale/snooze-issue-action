@@ -8461,11 +8461,22 @@ async function run() {
 
     console.log('github.context.issue', github.context.issue);
 
-    const result = await octokit.issues.update(
-      github.context.issue({
-        state: 'closed',
-      }),
-    );
+    const repo = github.context.repo.repo;
+    const owner = github.context.repo.owner;
+    const issue = github.context.payload.number;
+
+    const result = await octokit.issues.createComment({
+      repo,
+      owner,
+      issue_number: issue,
+      body: 'body of the comment',
+    });
+
+    // const result = await octokit.issues.update(
+    //   github.context.issue({
+    //     state: 'closed',
+    //   }),
+    // );
 
     console.log({ result });
   } catch (error) {
