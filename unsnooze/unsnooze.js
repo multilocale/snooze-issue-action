@@ -13,8 +13,8 @@ async function run() {
     console.log({ owner })
 
     const issues = await octokit.rest.issues.list({
-      state: 'closed',
-      labels: 'snoozed',
+      // state: 'closed',
+      // labels: 'snoozed',
     })
 
     console.log({ issues })
