@@ -14,7 +14,7 @@ async function run() {
 
     const repo = github.context.repo.repo
     const owner = github.context.repo.owner
-    const issue_number = github.context.payload.number
+    const issue_number = github.context.payload.issue.number
     console.log('github.context.payload', github.context.payload)
 
     console.log({ repo })
