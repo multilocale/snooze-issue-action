@@ -19,7 +19,9 @@
   "homepage": "https://github.com/multilocale/snooze-issue-action#readme",
   "dependencies": {
     "@actions/core": "^1.6.0",
-    "@actions/github": "^5.0.0"
+    "@actions/github": "^5.0.0",
+    "@babel/runtime": "^7.16.0",
+    "@babel/runtime-corejs2": "^7.16.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.16.0",
