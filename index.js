@@ -11,12 +11,12 @@ async function run() {
     const repo = context.repo.repo
     const owner = context.repo.owner
     const issue_number = payload.issue.number
-
     const commentBody = payload.comment.body
 
     console.log({ repo })
     console.log({ owner })
     console.log({ issue_number })
+    console.log({ commentBody })
     console.log('payload', payload)
 
     if (commentBody.startsWith('/snooze')) {
