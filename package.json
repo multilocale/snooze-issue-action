@@ -4,7 +4,7 @@
   "description": "commenting an issue with /snooze 30 days will temporarily close the issue for 30 days",
   "scripts": {
     "build": "babel snooze unsnooze --out-dir dist",
-    "build:watch": "babel snooze unsnooze--out-dir dist --watch"
+    "build:watch": "babel snooze unsnooze --out-dir dist --watch"
   },
   "repository": {
     "type": "git",
