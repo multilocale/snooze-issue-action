@@ -7,11 +7,12 @@ async function run() {
     // console.log(`The event payload: ${payload}`);
 
     const githubToken = core.getInput('githubToken');
+
+    console.log({ githubToken });
+
     const octokit = github.getOctokit(githubToken);
 
-    console.log({ octokit });
-
-    console.log('octokit.issues', octokit.issues);
+    console.log('octokit.rest.issues', octokit.rest.issues);
 
     const repo = github.context.repo.repo;
     const owner = github.context.repo.owner;
