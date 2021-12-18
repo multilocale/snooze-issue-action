@@ -18,21 +18,35 @@ async function run() {
     const owner = github.context.repo.owner;
     const issue_number = github.context.payload.number;
 
-    const commentCreated = await octokit.rest.issues.createComment({
-      repo,
-      owner,
-      issue_number,
-      body: 'body of the comment',
-    });
+    console.log({ repo });
+    console.log({ owner });
+    console.log({ issue_number });
+
+    const commentCreated = await octokit.rest.issues
+      .createComment({
+        repo,
+        owner,
+        issue_number,
+        body: 'body of the comment',
+      })
+      .then((error) => {
+        console.log('error for octokit.rest.issues.createComment');
+        console.log('error');
+      });
 
     console.log({ commentCreated });
 
-    const issueClosed = await octokit.rest.issues.update({
-      repo,
-      owner,
-      issue_number,
-      state: 'closed',
-    });
+    const issueClosed = await octokit.rest.issues
+      .update({
+        repo,
+        owner,
+        issue_number,
+        state: 'closed',
+      })
+      .then((error) => {
+        console.log('error for octokit.rest.issues.update');
+        console.log('error');
+      });
 
     console.log({ issueClosed });
   } catch (error) {
