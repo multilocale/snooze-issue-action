@@ -17,7 +17,7 @@ async function run() {
     const owner = github.context.repo.owner;
     const issue = github.context.payload.number;
 
-    const result = await octokit.issues.createComment({
+    const result = await octokit.rest.issues.createComment({
       repo,
       owner,
       issue_number: issue,

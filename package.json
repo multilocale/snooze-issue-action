@@ -4,7 +4,8 @@
   "description": "commenting an issue with /snooze 30 days will temporarily close the issue for 30 days",
   "main": "dist/index.js",
   "scripts": {
-    "build": "ncc build index.js --license licenses.txt"
+    "build": "ncc build index.js --license licenses.txt",
+    "build:watch": "ncc build index.js --license licenses.txt --watch"
   },
   "repository": {
     "type": "git",
