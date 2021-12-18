@@ -1,27 +1,23 @@
 const core = require('@actions/core')
-const github = require('@actions/github')
+const { context, getOctokit } = require('@actions/github')
 
 async function run() {
   try {
-    // const payload = JSON.stringify(github.context.payload, undefined, 2);
-    // console.log(`The event payload: ${payload}`);
-
+    const { payload } = context
     const githubToken = core.getInput('githubToken')
 
-    console.log({ githubToken })
+    const octokit = getOctokit(githubToken)
 
-    const octokit = github.getOctokit(githubToken)
+    const repo = context.repo.repo
+    const owner = context.repo.owner
+    const issue_number = payload.issue.number
 
-    const repo = github.context.repo.repo
-    const owner = github.context.repo.owner
-    const issue_number = github.context.payload.issue.number
-
-    const commentBody = github.context.payload.comment.body
+    const commentBody = payload.comment.body
 
     console.log({ repo })
     console.log({ owner })
     console.log({ issue_number })
-    console.log('github.context.payload')
+    console.log('payload', payload)
 
     if (commentBody.startsWith('/snooze')) {
       let days = 7
@@ -58,7 +54,7 @@ async function run() {
 
       console.log({ commentCreated })
 
-      const labels = github.context.payload.issue.labels
+      const labels = payload.issue.labels
 
       if (!labels.includes('snoozed')) {
         labels = labels.concat('snoozed')
