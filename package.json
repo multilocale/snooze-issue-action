@@ -2,17 +2,16 @@
   "name": "snooze-issue-action",
   "version": "0.0.1",
   "description": "commenting an issue with /snooze 30 days will temporarily close the issue for 30 days",
-  "main": "dist/index.js",
   "scripts": {
-    "build": "ncc build index.js --license licenses.txt",
-    "build:watch": "ncc build index.js --license licenses.txt --watch"
+    "build": "babel snooze unsnooze --out-dir dist",
+    "build:watch": "babel snooze unsnooze--out-dir dist --watch"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/multilocale/snooze-issue-action.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "multilocale.com",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/multilocale/snooze-issue-action/issues"
@@ -23,6 +22,10 @@
     "@actions/github": "^5.0.0"
   },
   "devDependencies": {
+    "@babel/cli": "^7.16.0",
+    "@babel/core": "^7.16.0",
+    "@babel/plugin-transform-runtime": "^7.16.4",
+    "@babel/preset-env": "^7.16.4",
     "@vercel/ncc": "^0.33.0",
     "eslint": "^8.4.1",
     "eslint-config-airbnb": "^19.0.2",

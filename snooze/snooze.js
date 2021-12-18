@@ -35,9 +35,11 @@ async function run() {
         }
       }
 
-      const snoozeData = new Date(
-        Date.now() + days * 24 * 60 * 60 * 1000,
-      ).toISOString()
+      const snoozeData = {
+        reopenDate: new Date(
+          Date.now() + days * 24 * 60 * 60 * 1000,
+        ).toISOString(),
+      }
 
       const snoozeComment =
         `This issue has been snoozed for ${days} days` +

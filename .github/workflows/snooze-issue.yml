@@ -8,15 +8,11 @@ on:
 jobs:
   snooze_issue:
     runs-on: ubuntu-latest
-    name: A job to say hello
+    name: commenting an issue with /snooze 30 days will close the issue, label it snoozed and comment with data to unsnooze
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Hello world action step
-        id: hello
-        uses: ./
+      - name: snooze issue
+        uses: ./snooze
         with:
           githubToken: ${{ secrets.GITHUB_TOKEN }}
-      # Use the output from the `hello` step
-      - name: Get the output time
-        run: echo "The time was ${{ steps.hello.outputs.time }}"
