@@ -12,8 +12,6 @@ async function run() {
     console.log({ owner })
     console.log({ repo })
 
-    console.log('octokit.rest.issues', octokit.rest.issues)
-
     const issues = await octokit.rest.issues
       .listForRepo({
         owner,
@@ -21,6 +19,7 @@ async function run() {
         state: 'closed',
         labels: 'snoozed',
       })
+      .then(({ data }) => data)
       .catch(error => {
         console.log(`error on octokit.rest.issues.listForRepo: ${error}`)
       })
