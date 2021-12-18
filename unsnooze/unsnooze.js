@@ -7,17 +7,19 @@ async function run() {
 
     const octokit = getOctokit(githubToken)
 
-    const { repo, owner } = context.repo
+    const { owner, repo } = context.repo
 
-    console.log({ repo })
     console.log({ owner })
+    console.log({ repo })
 
     console.log('octokit.rest.issues', octokit.rest.issues)
 
     const issues = await octokit.rest.issues
       .listForRepo({
-        // state: 'closed',
-        // labels: 'snoozed',
+        owner,
+        repo,
+        state: 'closed',
+        labels: 'snoozed',
       })
       .catch(error => {
         console.log(`error on octokit.rest.issues.listForRepo: ${error}`)

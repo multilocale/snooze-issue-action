@@ -18,7 +18,7 @@ function run() {
 
 function _run() {
   _run = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee() {
-    var payload, githubToken, octokit, _context$repo, repo, owner, issueNumber, commentBody, days, daysToParse, snoozeData, snoozeComment, commentCreated, labels, issueClosed;
+    var payload, githubToken, octokit, _context$repo, owner, repo, issueNumber, commentBody, days, daysToParse, snoozeData, snoozeComment, commentCreated, labels, issueClosed;
 
     return _regenerator["default"].wrap(function _callee$(_context) {
       while (1) {
@@ -28,14 +28,14 @@ function _run() {
             payload = context.payload;
             githubToken = core.getInput('githubToken');
             octokit = getOctokit(githubToken);
-            _context$repo = context.repo, repo = _context$repo.repo, owner = _context$repo.owner;
+            _context$repo = context.repo, owner = _context$repo.owner, repo = _context$repo.repo;
             issueNumber = payload.issue.number;
             commentBody = payload.comment.body;
             console.log({
-              repo: repo
+              owner: owner
             });
             console.log({
-              owner: owner
+              repo: repo
             });
             console.log({
               issueNumber: issueNumber
@@ -67,8 +67,8 @@ function _run() {
             snoozeComment = "This issue has been snoozed for ".concat(days, " days") + '\n' + "<!-- snooze = ".concat(JSON.stringify(snoozeData), " -->");
             _context.next = 20;
             return octokit.rest.issues.createComment({
-              repo: repo,
               owner: owner,
+              repo: repo,
               issue_number: issueNumber,
               body: snoozeComment
             });
@@ -86,8 +86,8 @@ function _run() {
 
             _context.next = 26;
             return octokit.rest.issues.update({
-              repo: repo,
               owner: owner,
+              repo: repo,
               issue_number: issueNumber,
               state: 'closed',
               labels: labels

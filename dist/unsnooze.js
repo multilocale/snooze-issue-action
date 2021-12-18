@@ -18,7 +18,7 @@ function run() {
 
 function _run() {
   _run = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee() {
-    var githubToken, octokit, _context$repo, repo, owner, issues;
+    var githubToken, octokit, _context$repo, owner, repo, issues;
 
     return _regenerator["default"].wrap(function _callee$(_context) {
       while (1) {
@@ -27,17 +27,20 @@ function _run() {
             _context.prev = 0;
             githubToken = core.getInput('githubToken');
             octokit = getOctokit(githubToken);
-            _context$repo = context.repo, repo = _context$repo.repo, owner = _context$repo.owner;
-            console.log({
-              repo: repo
-            });
+            _context$repo = context.repo, owner = _context$repo.owner, repo = _context$repo.repo;
             console.log({
               owner: owner
             });
+            console.log({
+              repo: repo
+            });
             console.log('octokit.rest.issues', octokit.rest.issues);
             _context.next = 9;
-            return octokit.rest.issues.listForRepo({// state: 'closed',
-              // labels: 'snoozed',
+            return octokit.rest.issues.listForRepo({
+              owner: owner,
+              repo: repo,
+              state: 'closed',
+              labels: 'snoozed'
             })["catch"](function (error) {
               console.log("error on octokit.rest.issues.listForRepo: ".concat(error));
             });

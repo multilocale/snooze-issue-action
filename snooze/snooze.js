@@ -8,12 +8,12 @@ async function run() {
 
     const octokit = getOctokit(githubToken)
 
-    const { repo, owner } = context.repo
+    const { owner, repo } = context.repo
     const issueNumber = payload.issue.number
     const commentBody = payload.comment.body
 
-    console.log({ repo })
     console.log({ owner })
+    console.log({ repo })
     console.log({ issueNumber })
     console.log({ commentBody })
     console.log('payload', payload)
@@ -47,8 +47,8 @@ async function run() {
         `<!-- snooze = ${JSON.stringify(snoozeData)} -->`
 
       const commentCreated = await octokit.rest.issues.createComment({
-        repo,
         owner,
+        repo,
         issue_number: issueNumber,
         body: snoozeComment,
       })
@@ -62,8 +62,8 @@ async function run() {
       }
 
       const issueClosed = await octokit.rest.issues.update({
-        repo,
         owner,
+        repo,
         issue_number: issueNumber,
         state: 'closed',
         labels,
