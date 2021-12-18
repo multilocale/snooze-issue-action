@@ -5,6 +5,7 @@ module.exports = {
   },
   extends: ['airbnb'],
   rules: {
+    'arrow-parens': ['error', 'as-needed'],
     semi: ['error', 'never'],
     'no-console': 'off',
     'operator-linebreak': 'off',

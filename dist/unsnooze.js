@@ -34,30 +34,33 @@ function _run() {
             console.log({
               owner: owner
             });
-            _context.next = 8;
+            console.log('octokit.rest.issues', octokit.rest.issues);
+            _context.next = 9;
             return octokit.rest.issues.listForRepo({// state: 'closed',
               // labels: 'snoozed',
+            })["catch"](function (error) {
+              console.log("error on octokit.rest.issues.listForRepo: ".concat(error));
             });
 
-          case 8:
+          case 9:
             issues = _context.sent;
             console.log({
               issues: issues
             });
-            _context.next = 15;
+            _context.next = 16;
             break;
 
-          case 12:
-            _context.prev = 12;
+          case 13:
+            _context.prev = 13;
             _context.t0 = _context["catch"](0);
             core.setFailed(_context.t0.message);
 
-          case 15:
+          case 16:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee, null, [[0, 12]]);
+    }, _callee, null, [[0, 13]]);
   }));
   return _run.apply(this, arguments);
 }
