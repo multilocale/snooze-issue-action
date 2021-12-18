@@ -7,6 +7,7 @@ module.exports = {
   rules: {
     'arrow-parens': ['error', 'as-needed'],
     semi: ['error', 'never'],
+    'no-await-in-loop': 'off',
     'no-console': 'off',
     'operator-linebreak': 'off',
   },

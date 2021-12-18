@@ -22,9 +22,27 @@ async function run() {
       .then(({ data }) => data)
       .catch(error => {
         console.log(`error on octokit.rest.issues.listForRepo: ${error}`)
+        throw error
       })
 
     console.log({ issues })
+
+    for (let i = 0; i < issues.length; i += 1) {
+      const issue = issues[0]
+      const comments = await octokit.rest.issues
+        .listComments({
+          owner,
+          repo,
+          issue_number: issue.number,
+        })
+        .then(({ data }) => data)
+        .catch(error => {
+          console.error(`error on octokit.rest.issues.listComments: ${error}`)
+          throw error
+        })
+
+      console.log({ comments })
+    }
   } catch (error) {
     core.setFailed(error.message)
   }
