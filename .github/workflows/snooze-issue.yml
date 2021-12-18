@@ -8,7 +8,7 @@ on:
 jobs:
   snooze_issue:
     runs-on: ubuntu-latest
-    name: commenting an issue with /snooze 30 days will close the issue, label it snoozed and comment with data to unsnooze
+    name: snooze issue
     steps:
       - name: Checkout
         uses: actions/checkout@v2

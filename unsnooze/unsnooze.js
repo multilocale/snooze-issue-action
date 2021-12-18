@@ -12,7 +12,7 @@ async function run() {
     console.log({ repo })
     console.log({ owner })
 
-    const issues = await octokit.rest.issues.listForRepo({
+    const issues = await octokit.rest.issues.list({
       state: 'closed',
       labels: 'snoozed',
     })
