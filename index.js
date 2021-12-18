@@ -8,7 +8,7 @@ async function run() {
 
     const octokit = getOctokit(githubToken)
 
-    const { repo, owner } = context.repo.repo
+    const { repo, owner } = context.repo
     const issueNumber = payload.issue.number
     const commentBody = payload.comment.body
 
