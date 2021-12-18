@@ -35,7 +35,7 @@ function _run() {
               owner: owner
             });
             _context.next = 8;
-            return octokit.rest.issues.list({// state: 'closed',
+            return octokit.rest.issues.listForRepo({// state: 'closed',
               // labels: 'snoozed',
             });
 
