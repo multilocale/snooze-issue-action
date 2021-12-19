@@ -25,7 +25,7 @@ async function run() {
         throw error
       })
 
-    console.log({ issues })
+    // console.log({ issues })
 
     for (let i = 0; i < issues.length; i += 1) {
       const issue = issues[0]
@@ -34,6 +34,9 @@ async function run() {
           owner,
           repo,
           issue_number: issue.number,
+          per_page: 100,
+          sort: 'created',
+          direction: 'desc',
         })
         .then(({ data }) => data)
         .catch(error => {
@@ -42,6 +45,12 @@ async function run() {
         })
 
       console.log({ comments })
+
+      const snoozedComments = comments.filter(({ body }) =>
+        body.includes('<!-- snooze ='),
+      )
+
+      console.log({ snoozedComments })
     }
   } catch (error) {
     core.setFailed(error.message)

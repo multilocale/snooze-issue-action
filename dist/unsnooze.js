@@ -18,7 +18,7 @@ function run() {
 
 function _run() {
   _run = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee() {
-    var githubToken, octokit, _context$repo, owner, repo, issues, i, issue, comments;
+    var githubToken, octokit, _context$repo, owner, repo, issues, i, issue, comments, snoozedComments;
 
     return _regenerator["default"].wrap(function _callee$(_context) {
       while (1) {
@@ -50,23 +50,23 @@ function _run() {
 
           case 8:
             issues = _context.sent;
-            console.log({
-              issues: issues
-            });
             i = 0;
 
-          case 11:
+          case 10:
             if (!(i < issues.length)) {
-              _context.next = 20;
+              _context.next = 21;
               break;
             }
 
             issue = issues[0];
-            _context.next = 15;
+            _context.next = 14;
             return octokit.rest.issues.listComments({
               owner: owner,
               repo: repo,
-              issue_number: issue.number
+              issue_number: issue.number,
+              per_page: 100,
+              sort: 'created',
+              direction: 'desc'
             }).then(function (_ref2) {
               var data = _ref2.data;
               return data;
@@ -75,32 +75,39 @@ function _run() {
               throw error;
             });
 
-          case 15:
+          case 14:
             comments = _context.sent;
             console.log({
               comments: comments
             });
+            snoozedComments = comments.filter(function (_ref3) {
+              var body = _ref3.body;
+              return body.includes('<!-- snooze =');
+            });
+            console.log({
+              snoozedComments: snoozedComments
+            });
 
-          case 17:
+          case 18:
             i += 1;
-            _context.next = 11;
+            _context.next = 10;
             break;
 
-          case 20:
-            _context.next = 25;
+          case 21:
+            _context.next = 26;
             break;
 
-          case 22:
-            _context.prev = 22;
+          case 23:
+            _context.prev = 23;
             _context.t0 = _context["catch"](0);
             core.setFailed(_context.t0.message);
 
-          case 25:
+          case 26:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee, null, [[0, 22]]);
+    }, _callee, null, [[0, 23]]);
   }));
   return _run.apply(this, arguments);
 }
