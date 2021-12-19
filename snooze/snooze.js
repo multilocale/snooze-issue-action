@@ -6,7 +6,7 @@ module.exports = async function snooze() {
     const { payload } = context
     const { owner, repo } = context.repo
     const issueNumber = payload.issue.number
-    const commentBody = payload.comment.body?.trim()
+    const commentBody = payload.comment.body.trim()
 
     console.debug(`New comment for issue #${issueNumber}`)
 
