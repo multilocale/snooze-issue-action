@@ -2,6 +2,8 @@ module.exports = {
   env: {
     node: true,
     es6: true,
+    jest: true,
+    'jest/globals': true,
   },
   extends: ['airbnb'],
   rules: {
@@ -12,5 +14,6 @@ module.exports = {
     'no-await-in-loop': 'off',
     'no-console': 'off',
     'operator-linebreak': 'off',
+    'prefer-destructuring': 'off',
   },
 }

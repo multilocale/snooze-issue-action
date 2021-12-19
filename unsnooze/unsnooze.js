@@ -27,7 +27,10 @@ async function run() {
 
     // console.log({ issues })
 
-    for (let i = 0; i < issues.length; i += 1) {
+    let snoozeComment
+    let i = 0
+
+    while (!snoozeComment && i < issues.length) {
       const issue = issues[0]
       const comments = await octokit.rest.issues
         .listComments({
@@ -36,7 +39,7 @@ async function run() {
           issue_number: issue.number,
           per_page: 100,
           sort: 'created',
-          direction: 'desc',
+          direction: 'asc',
         })
         .then(({ data }) => data)
         .catch(error => {
@@ -44,13 +47,44 @@ async function run() {
           throw error
         })
 
-      console.log({ comments })
-
       const snoozedComments = comments.filter(({ body }) =>
         body.includes('<!-- snooze ='),
       )
 
       console.log({ snoozedComments })
+
+      if (snoozedComments) {
+        snoozeComment = snoozedComments[0]
+      }
+
+      i += 1
+    }
+
+    if (snoozeComment) {
+      try {
+        const snoozeString = snoozeComment.body
+          .replace('<!-- snooze =', '')
+          .replace('-->', '')
+          .trim()
+
+        const snoozeData = JSON.parse(snoozeString)
+        let { reopenDate } = snoozeData
+
+        reopenDate = new Date(reopenDate)
+
+        if (Date.now() > reopenDate.getTime()) {
+          const issueReopened = await octokit.rest.issues.update({
+            owner,
+            repo,
+            issue_number: issueNumber,
+            state: 'closed',
+            labels,
+          })
+        }
+      } catch (error) {
+        console.error(`error while parsing snooze data in comment ${error}`)
+        throw error
+      }
     }
   } catch (error) {
     core.setFailed(error.message)
