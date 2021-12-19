@@ -42,13 +42,13 @@ module.exports = async function unsnooze() {
           throw error
         })
 
-      console.log({ comments })
-
-      // const commentsFromNewest = commentsFromNewest.sort()
-
-      const snoozeComment = comments.filter(({ body }) =>
-        body.includes('<!-- snooze ='),
-      )[0]
+      const snoozeComment = comments
+        .filter(({ body }) => body.includes('<!-- snooze ='))
+        .sort(
+          (a, b) =>
+            new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
+        )
+        .at(0)
 
       if (snoozeComment) {
         try {
