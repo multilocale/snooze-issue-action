@@ -50,10 +50,15 @@ module.exports = async function unsnooze() {
 
       if (snoozeComment) {
         try {
-          const snoozeString = snoozeComment.body
-            .replace('<!-- snooze =', '')
-            .replace('-->', '')
+          const snoozeString3 = snoozeComment.body
+            .substring(
+              snoozeComment.body.lastIndexOf('<!-- snooze =') +
+                '<!-- snooze ='.length,
+              snoozeComment.body.lastIndexOf('-->'),
+            )
             .trim()
+
+          console.log({ snoozeString })
 
           const snoozeData = JSON.parse(snoozeString)
           let { reopenDate } = snoozeData
@@ -63,7 +68,7 @@ module.exports = async function unsnooze() {
           if (Date.now() > reopenDate.getTime()) {
             const labels = issue.labels.filter(label => label !== 'snoozed')
 
-            const issueReopened = await octokit.rest.issues.update({
+            await octokit.rest.issues.update({
               owner,
               repo,
               issue_number: issue.number,
