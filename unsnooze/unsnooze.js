@@ -35,8 +35,6 @@ module.exports = async function unsnooze() {
           repo,
           issue_number: issue.number,
           per_page: 100,
-          sort: 'created',
-          direction: 'asc',
         })
         .then(({ data }) => data)
         .catch(error => {
@@ -44,12 +42,18 @@ module.exports = async function unsnooze() {
           throw error
         })
 
+      console.log({ comments })
+
+      // const commentsFromNewest = commentsFromNewest.sort()
+
       const snoozeComment = comments.filter(({ body }) =>
         body.includes('<!-- snooze ='),
       )[0]
 
       if (snoozeComment) {
         try {
+          console.log({ snoozeComment })
+
           const snoozeString = snoozeComment.body
             .substring(
               snoozeComment.body.lastIndexOf('<!-- snooze =') +
