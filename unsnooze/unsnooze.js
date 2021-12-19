@@ -47,8 +47,7 @@ module.exports = async function unsnooze() {
         .sort(
           (a, b) =>
             new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
-        )
-        .at(0)
+        )[0]
 
       if (snoozeComment) {
         try {
