@@ -78,6 +78,13 @@ module.exports = async function unsnooze() {
               state: 'open',
               labels,
             })
+
+            await octokit.rest.issues.createComment({
+              owner,
+              repo,
+              issue_number: issue.number,
+              body: 'This issue has been reopened because its snooze time has past',
+            })
           }
         } catch (error) {
           console.error(`error while parsing snooze data in comment ${error}`)

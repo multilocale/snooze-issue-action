@@ -15,6 +15,11 @@ jest.mock('@actions/github', () => ({
   getOctokit: jest.fn(() => ({
     rest: {
       issues: {
+        createComment: jest.fn(() =>
+          Promise.resolve({
+            data: {},
+          }),
+        ),
         listComments: jest.fn(() =>
           Promise.resolve({
             data: [
