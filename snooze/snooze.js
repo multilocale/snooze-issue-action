@@ -1,7 +1,7 @@
 const core = require('@actions/core')
 const { context, getOctokit } = require('@actions/github')
 
-module.esports = async function snooze() {
+module.exports = async function snooze() {
   try {
     const { payload } = context
     const githubToken = core.getInput('githubToken')
