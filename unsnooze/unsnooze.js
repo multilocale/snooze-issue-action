@@ -50,7 +50,7 @@ module.exports = async function unsnooze() {
 
       if (snoozeComment) {
         try {
-          const snoozeString3 = snoozeComment.body
+          const snoozeString = snoozeComment.body
             .substring(
               snoozeComment.body.lastIndexOf('<!-- snooze =') +
                 '<!-- snooze ='.length,
