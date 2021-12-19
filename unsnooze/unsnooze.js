@@ -3,14 +3,16 @@ const { context, getOctokit } = require('@actions/github')
 
 module.exports = async function unsnooze() {
   try {
+    const { owner, repo } = context.repo
+
+    console.debug('Checking if some issue can be unsnoozed')
+
+    // console.log({ owner })
+    // console.log({ repo })
+
     const githubToken = getInput('githubToken')
 
     const octokit = getOctokit(githubToken)
-
-    const { owner, repo } = context.repo
-
-    console.log({ owner })
-    console.log({ repo })
 
     const issues = await octokit.rest.issues
       .listForRepo({
@@ -25,9 +27,11 @@ module.exports = async function unsnooze() {
         throw error
       })
 
-    // console.log({ issues })
+    console.debug(`Found ${issues.length} closed and snoozed issues`)
 
     for (let i = 0; i < issues.length; i += 1) {
+      console.debug(`${i + 1}/${issues.length} issues comments checking`)
+
       const issue = issues[0]
       const comments = await octokit.rest.issues
         .listComments({
@@ -42,6 +46,8 @@ module.exports = async function unsnooze() {
           throw error
         })
 
+      console.debug(`Issue ${issues.number} has ${comments}+ comments`)
+
       const snoozeComment = comments
         .filter(({ body }) => body.includes('<!-- snooze ='))
         .sort(
@@ -51,7 +57,7 @@ module.exports = async function unsnooze() {
 
       if (snoozeComment) {
         try {
-          console.log({ snoozeComment })
+          console.debug('  Found a comment with /snooze')
 
           const snoozeString = snoozeComment.body
             .substring(
@@ -61,18 +67,21 @@ module.exports = async function unsnooze() {
             )
             .trim()
 
-          console.log({ snoozeString })
-
           const snoozeData = JSON.parse(snoozeString)
           let { reopenDate } = snoozeData
+
+          console.debug(`  reopenDate is ${reopenDate}`)
 
           reopenDate = new Date(reopenDate)
 
           if (Date.now() > reopenDate.getTime()) {
+            console.debug(
+              `  The time to unsnooze issue ${issue.number} has arrived`,
+            )
             const labels = issue.labels
               .map(({ name }) => name)
               .filter(label => label !== 'snoozed')
-            console.log({ labels })
+
             await octokit.rest.issues.update({
               owner,
               repo,
@@ -87,6 +96,14 @@ module.exports = async function unsnooze() {
               issue_number: issue.number,
               body: 'This issue has been reopened because its snooze time has past',
             })
+
+            console.debug(
+              `  Issue ${issue.number} has been reopened because its snooze time has past`,
+            )
+          } else {
+            console.debug(
+              `  reopenDate has not yet arrived and the issue will stay closed`,
+            )
           }
         } catch (error) {
           console.error(`error while parsing snooze data in comment ${error}`)
@@ -94,6 +111,8 @@ module.exports = async function unsnooze() {
         }
       }
     }
+
+    console.debug(`Finished checking all ${issues.length} snoozed issues`)
   } catch (error) {
     console.error(error)
     setFailed(error.message)

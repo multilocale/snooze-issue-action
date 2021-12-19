@@ -1,4 +1,4 @@
-const unsnooze = require('../unsnooze')
+const snooze = require('../snooze')
 
 jest.mock('@actions/core', () => ({
   getInput: jest.fn(),
@@ -7,6 +7,15 @@ jest.mock('@actions/core', () => ({
 
 jest.mock('@actions/github', () => ({
   context: {
+    payload: {
+      comment: {
+        body: '/snooze 1',
+      },
+      issue: {
+        number: 1,
+        labels: [{ name: 'bug' }],
+      },
+    },
     repo: {
       owner: 'STUB_OWNER',
       repo: 'STUB_REPO',
@@ -37,7 +46,7 @@ jest.mock('@actions/github', () => ({
           Promise.resolve({
             data: [
               {
-                labels: [{ name: 'snoozed' }],
+                labels: ['snoozed'],
                 number: 1,
                 state: 'closed',
               },
@@ -54,8 +63,8 @@ jest.mock('@actions/github', () => ({
   })),
 }))
 
-describe('unsnooze action', () => {
-  it('unsnooze issues', () => {
-    unsnooze()
+describe('snooze action', () => {
+  it('snooze issue', () => {
+    snooze()
   })
 })

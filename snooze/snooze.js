@@ -1,24 +1,28 @@
-const core = require('@actions/core')
+const { getInput, setFailed } = require('@actions/core')
 const { context, getOctokit } = require('@actions/github')
 
 module.exports = async function snooze() {
   try {
     const { payload } = context
-    const githubToken = core.getInput('githubToken')
+    const { owner, repo } = context.repo
+    const issueNumber = payload.issue.number
+    const commentBody = payload.comment.body?.trim()
+
+    console.debug(`New comment for issue #${issueNumber}`)
+
+    // console.log({ owner })
+    // console.log({ repo })
+    // console.log({ issueNumber })
+    // console.log({ commentBody })
+    // console.log('payload', payload)
+
+    const githubToken = getInput('githubToken')
 
     const octokit = getOctokit(githubToken)
 
-    const { owner, repo } = context.repo
-    const issueNumber = payload.issue.number
-    const commentBody = payload.comment.body
-
-    console.log({ owner })
-    console.log({ repo })
-    console.log({ issueNumber })
-    console.log({ commentBody })
-    console.log('payload', payload)
-
     if (commentBody.startsWith('/snooze')) {
+      console.debug('Comment starts with /snooze and should be snoozed')
+
       let days = 7
 
       const daysToParse = commentBody
@@ -30,30 +34,37 @@ module.exports = async function snooze() {
       if (daysToParse) {
         try {
           days = parseInt(daysToParse, 10)
+          console.debug(`Snooze time parsed is ${days} days`)
         } catch (error) {
-          console.error(`error while parsing snooze time: ${error}`)
+          console.debug(
+            `Snooze time default to ${days} because of error while parsing snooze time: ${error}`,
+          )
         }
       }
 
-      const snoozeData = {
-        reopenDate: new Date(
-          Date.now() + days * 24 * 60 * 60 * 1000,
-        ).toISOString(),
-      }
+      const reopenDate = new Date(
+        Date.now() + days * 24 * 60 * 60 * 1000,
+      ).toISOString()
+
+      const hiddenHtmlComment = `<!-- snooze = ${JSON.stringify({
+        reopenDate,
+      })} -->`
 
       const snoozeComment =
         `This issue has been snoozed for ${days} days` +
         '\n' +
-        `<!-- snooze = ${JSON.stringify(snoozeData)} -->`
+        `${hiddenHtmlComment}`
 
-      const commentCreated = await octokit.rest.issues.createComment({
+      await octokit.rest.issues.createComment({
         owner,
         repo,
         issue_number: issueNumber,
         body: snoozeComment,
       })
 
-      console.log({ commentCreated })
+      console.debug(
+        `Commented issue with hidden html comment: ${hiddenHtmlComment}`,
+      )
 
       let labels = payload.issue.labels.map(({ name }) => name)
 
@@ -61,7 +72,7 @@ module.exports = async function snooze() {
         labels = labels.concat('snoozed')
       }
 
-      const issueClosed = await octokit.rest.issues.update({
+      await octokit.rest.issues.update({
         owner,
         repo,
         issue_number: issueNumber,
@@ -69,9 +80,11 @@ module.exports = async function snooze() {
         labels,
       })
 
-      console.log({ issueClosed })
+      console.debug(`Issue #${issueNumber} has been closed and labeled snoozed`)
+    } else {
+      console.debug('Comment does NOT start with /snooze and will be ignored')
     }
   } catch (error) {
-    core.setFailed(error.message)
+    setFailed(error.message)
   }
 }
