@@ -1,7 +1,7 @@
 const core = require('@actions/core')
 const { context, getOctokit } = require('@actions/github')
 
-async function run() {
+module.esports = async function snooze() {
   try {
     const { payload } = context
     const githubToken = core.getInput('githubToken')
@@ -75,5 +75,3 @@ async function run() {
     core.setFailed(error.message)
   }
 }
-
-run()
