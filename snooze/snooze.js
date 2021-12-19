@@ -55,7 +55,7 @@ module.exports = async function snooze() {
 
       console.log({ commentCreated })
 
-      let { labels } = payload.issue
+      let labels = payload.issue.labels.map(({ name }) => name)
 
       if (!labels.includes('snoozed')) {
         labels = labels.concat('snoozed')

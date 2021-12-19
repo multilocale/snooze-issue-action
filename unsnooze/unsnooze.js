@@ -69,7 +69,9 @@ module.exports = async function unsnooze() {
           reopenDate = new Date(reopenDate)
 
           if (Date.now() > reopenDate.getTime()) {
-            const labels = issue.labels.filter(label => label !== 'snoozed')
+            const labels = issue.labels
+              .map(({ name }) => name)
+              .filter(label => label !== 'snoozed')
             console.log({ labels })
             await octokit.rest.issues.update({
               owner,
