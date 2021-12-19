@@ -1,9 +1,9 @@
-const core = require('@actions/core')
+const { getInput, setFailed } = require('@actions/core')
 const { context, getOctokit } = require('@actions/github')
 
 module.exports = async function unsnooze() {
   try {
-    const githubToken = core.getInput('githubToken')
+    const githubToken = getInput('githubToken')
 
     const octokit = getOctokit(githubToken)
 
@@ -27,10 +27,7 @@ module.exports = async function unsnooze() {
 
     // console.log({ issues })
 
-    let snoozeComment
-    let i = 0
-
-    while (!snoozeComment && i < issues.length) {
+    for (let i = 0; i < issues.length; i += 1) {
       const issue = issues[0]
       const comments = await octokit.rest.issues
         .listComments({
@@ -47,46 +44,41 @@ module.exports = async function unsnooze() {
           throw error
         })
 
-      const snoozedComments = comments.filter(({ body }) =>
+      const snoozeComment = comments.filter(({ body }) =>
         body.includes('<!-- snooze ='),
-      )
+      )[0]
 
-      console.log({ snoozedComments })
+      if (snoozeComment) {
+        try {
+          const snoozeString = snoozeComment.body
+            .replace('<!-- snooze =', '')
+            .replace('-->', '')
+            .trim()
 
-      if (snoozedComments) {
-        snoozeComment = snoozedComments[0]
-      }
+          const snoozeData = JSON.parse(snoozeString)
+          let { reopenDate } = snoozeData
 
-      i += 1
-    }
+          reopenDate = new Date(reopenDate)
 
-    if (snoozeComment) {
-      try {
-        const snoozeString = snoozeComment.body
-          .replace('<!-- snooze =', '')
-          .replace('-->', '')
-          .trim()
+          if (Date.now() > reopenDate.getTime()) {
+            const labels = issue.labels.filter(label => label !== 'snoozed')
 
-        const snoozeData = JSON.parse(snoozeString)
-        let { reopenDate } = snoozeData
-
-        reopenDate = new Date(reopenDate)
-
-        if (Date.now() > reopenDate.getTime()) {
-          const issueReopened = await octokit.rest.issues.update({
-            owner,
-            repo,
-            issue_number: issueNumber,
-            state: 'closed',
-            labels,
-          })
+            const issueReopened = await octokit.rest.issues.update({
+              owner,
+              repo,
+              issue_number: issue.number,
+              state: 'open',
+              labels,
+            })
+          }
+        } catch (error) {
+          console.error(`error while parsing snooze data in comment ${error}`)
+          throw error
         }
-      } catch (error) {
-        console.error(`error while parsing snooze data in comment ${error}`)
-        throw error
       }
     }
   } catch (error) {
+    console.error(error)
     core.setFailed(error.message)
   }
 }

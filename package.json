@@ -3,7 +3,8 @@
   "version": "0.0.1",
   "description": "commenting an issue with /snooze 30 days will temporarily close the issue for 30 days",
   "scripts": {
-    "test": "jest ."
+    "test": "jest .",
+    "test:watch": "jest --watch ."
   },
   "repository": {
     "type": "git",
