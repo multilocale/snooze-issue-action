@@ -46,7 +46,7 @@ module.exports = async function unsnooze() {
           throw error
         })
 
-      console.debug(`Issue ${issues.number} has ${comments}+ comments`)
+      console.debug(`Issue #${issue.number} has ${comments.length}+ comments`)
 
       const snoozeComment = comments
         .filter(({ body }) => body.includes('<!-- snooze ='))
@@ -76,7 +76,7 @@ module.exports = async function unsnooze() {
 
           if (Date.now() > reopenDate.getTime()) {
             console.debug(
-              `  The time to unsnooze issue ${issue.number} has arrived`,
+              `  The time to unsnooze issue #${issue.number} has arrived`,
             )
             const labels = issue.labels
               .map(({ name }) => name)
@@ -98,7 +98,7 @@ module.exports = async function unsnooze() {
             })
 
             console.debug(
-              `  Issue ${issue.number} has been reopened because its snooze time has past`,
+              `  Issue #${issue.number} has been reopened because its snooze time has past`,
             )
           } else {
             console.debug(
