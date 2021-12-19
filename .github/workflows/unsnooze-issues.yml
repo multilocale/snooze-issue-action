@@ -1,23 +1,23 @@
-name: unsnooze issue
+name: unsnooze issues
 
 on:
   workflow_dispatch:
-  # schedule:
-  #   #        ┌───────────── minute (0 - 59)
-  #   #        │  ┌───────────── hour (0 - 23)
-  #   #        │  │ ┌───────────── day of the month (1 - 31)
-  #   #        │  │ │ ┌───────────── month (1 - 12 or JAN-DEC)
-  #   #        │  │ │ │ ┌───────────── day of the week (0 - 6 or SUN-SAT)
-  #   #        │  │ │ │ │
-  #   #        │  │ │ │ │
-  #   #        │  │ │ │ │
-  #   #        *  * * * *
-  #   - cron: '0 */24 * * *' # checks once every 24 hours
+    schedule:
+      #        ┌───────────── minute (0 - 59)
+      #        │  ┌───────────── hour (0 - 23)
+      #        │  │ ┌───────────── day of the month (1 - 31)
+      #        │  │ │ ┌───────────── month (1 - 12 or JAN-DEC)
+      #        │  │ │ │ ┌───────────── day of the week (0 - 6 or SUN-SAT)
+      #        │  │ │ │ │
+      #        │  │ │ │ │
+      #        │  │ │ │ │
+      #        *  * * * *
+      - cron: '0 */24 * * *' # checks once every 24 hours
 
 jobs:
   unsnooze_issue:
     runs-on: ubuntu-latest
-    name: unsnooze issue
+    name: unsnooze issues
     steps:
       - name: Checkout
         uses: actions/checkout@v2

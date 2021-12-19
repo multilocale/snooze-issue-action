@@ -4,7 +4,8 @@
   "description": "commenting an issue with /snooze 30 days will temporarily close the issue for 30 days",
   "scripts": {
     "test": "jest .",
-    "test:watch": "jest --watch ."
+    "test:watch": "jest --watch .",
+    "trigger": "gh workflow run unsnooze-issues.yml"
   },
   "repository": {
     "type": "git",
