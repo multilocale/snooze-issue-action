@@ -1,10 +1,10 @@
 # snooze-issue-action
 
-comment a Github issue with /snooze 30 days to temporarily close it and open it again in 30 days.
+comment a Github issue with **/snooze 30 days** to temporarily close it and open it again in 30 days.
 
 ## Installation
 
-Copy [.github/workflows/snooze-issue.yml](https://github.com/multilocale/snooze-issue-action/blob/main/.github/workflows/snooze-issue.yml) and [.github/workflows/unsnooze-issues.yml](https://github.com/multilocale/snooze-issue-action/blob/main/.github/workflows/unsnooze-issues.yml) in the /.github/worklows of your repo.
+Copy these 2 workflows to the /.github/worklows folder of your repo.1. [.github/workflows/snooze-issue.yml](https://github.com/multilocale/snooze-issue-action/blob/main/.github/workflows/snooze-issue.yml) 2.[.github/workflows/unsnooze-issues.yml](https://github.com/multilocale/snooze-issue-action/blob/main/.github/workflows/unsnooze-issues.yml)
 
 ## Example usage
 
