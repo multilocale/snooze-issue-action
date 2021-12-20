@@ -13,6 +13,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: snooze issue
-        uses: multilocale/snooze-issue-action/snooze
+        uses: multilocale/snooze-issue-action/snooze@master
         with:
           githubToken: ${{ secrets.GITHUB_TOKEN }}
