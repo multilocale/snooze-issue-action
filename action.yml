@@ -1,0 +1,11 @@
+# there are 2 actions in this repo in /snooze and /unsnooze folders
+# this action.yml in the root is only here to be able to publish on the Github Marketplace
+name: 'Snooze issue'
+description: 'commenting an issue with /snooze 30 days will temporarily close the issue for 30 days'
+inputs:
+  githubToken:
+    description: 'github token'
+    required: true
+runs:
+  using: 'node12'
+  main: './snooze/action.js'
