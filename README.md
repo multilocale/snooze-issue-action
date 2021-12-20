@@ -1,4 +1,4 @@
-# snooze-issue-action
+# Snooze issue for n days
 
 comment a Github issue with **/snooze 30 days** to temporarily close it and open it again in 30 days.
 
