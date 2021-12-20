@@ -22,6 +22,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: unsnooze issues
-        uses: ./unsnooze
+        uses: multilocale/snooze-issue-action/unsnooze
         with:
           githubToken: ${{ secrets.GITHUB_TOKEN }}
