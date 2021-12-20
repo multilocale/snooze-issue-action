@@ -2,6 +2,9 @@
 # this action.yml in the root is only here to be able to publish on the Github Marketplace
 name: 'Snooze issue'
 description: 'commenting an issue with /snooze 30 days will temporarily close the issue for 30 days'
+branding:
+  icon: 'archive'
+  color: 'blue'
 inputs:
   githubToken:
     description: 'github token'
